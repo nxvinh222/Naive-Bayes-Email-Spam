@@ -1,7 +1,5 @@
 # Filter Spam Email using Naive Bayes
 
-This notebook builds using using Sklearn.
-
 ## 1. Problem
 
 Identifying Spam Email given an Email.
