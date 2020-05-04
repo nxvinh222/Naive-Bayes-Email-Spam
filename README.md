@@ -19,7 +19,7 @@ About the data:
 - Labeled Data (spam email or not).
 - 5799 emails (both spam and non-spam)
 - 4057 emails in training set.
-- 1742 images in test set.
+- 1742 emails in test set.
 
 ## 5. Model
 Using Naive Bayes:
