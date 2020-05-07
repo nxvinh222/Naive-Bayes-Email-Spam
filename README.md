@@ -1,4 +1,4 @@
-# Filter Spam Email using Naive Bayes
+# Filter Spam Email API
 
 ## 1. Problem
 
