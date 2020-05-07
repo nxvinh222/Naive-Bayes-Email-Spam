@@ -39,13 +39,7 @@ word_index = [x.replace('\n', '') for x in word_index]
 type(word_index)
 
 def make_sparse_matrix(df, indexed_words):
-    """
-    Return Sparse matrix as dataframe
-    
-    df: Dataframe with words in columns with document id as index (X_train or X_test)
-    indexed_words: index of words ordered by word id
-    labels: category as a series (y_train or y_test)
-    """
+
     type(indexed_words)
     nr_rows = df.shape[0]
     nr_cols = df.shape[1]
@@ -68,31 +62,7 @@ def make_sparse_matrix(df, indexed_words):
     return pd.DataFrame(dict_list)
 
 def make_full_matrix(sparse_matrix, nr_words, doc_idx=0, word_idx=1, freq_idx=3):
-    """
-    From a full matrix from a sparse matrix.
-    Return pandas DataFrame
-    Keyword arguments:
-    sparse_matrix -- numpy array
-    nr_words -- size of vocabulary, total number of tokens
-    doc_idx -- position of the document id in the sparse matrix
-    word_idx -- position of the word id in the sparse matrix
-    cat_idx -- position of the label (spam 0, nonspam 1) in the sparse matrix
-    freq_idx -- position of the occurence in the sparse matrix
-    
-    """
-    # doc_id_names = np.unique(sparse_matrix[:, 0])
-    # column_names = list(range(0, VOCAB_SIZE))
-    # full_matrix = pd.DataFrame(columns=column_names)
-    # full_matrix.fillna(value=0, inplace=True)
-    
-    # doc_id = sparse_matrix[doc_idx]
-    # word_id = sparse_matrix[word_idx]
-    # occurence = sparse_matrix[freq_idx]
-        
-    # full_matrix.at[doc_id, 'DOC_ID'] = doc_id
-    # full_matrix.at[doc_id, word_id] = occurence
-        
-    # full_matrix.set_index('DOC_ID', inplace=True)
+
     full_matrix = [0] * 2500
     for i in range(sparse_matrix.shape[0]):
         index = sparse_matrix.WORD_ID.at[i]
@@ -103,24 +73,15 @@ def make_full_matrix(sparse_matrix, nr_words, doc_idx=0, word_idx=1, freq_idx=3)
     return full_matrix
 def spam_or_not(email):
     stemmed_nested_list = clean_message_no_html(email)
-    # print(stemmed_nested_list)
     stemmed_nested_list = [stemmed_nested_list]
     word_column_df = pd.DataFrame(stemmed_nested_list)
-    # print(word_column_df)
     sparse_test_df = make_sparse_matrix(word_column_df, word_index)
-    # print(sparse_train_df)
-    # index = np.loadtxt('Data/SpamData/02_Training/word-index.txt', delimiter=',')
     test_grouped = sparse_test_df.groupby(['WORD_ID']).sum()
     test_grouped = test_grouped.reset_index()
-    # print(test_grouped.WORD_ID.shape)
     full_test_data = make_full_matrix(test_grouped, VOCAB_SIZE)
-    # print(test_grouped)
     prob_token_spam = np.loadtxt(TOKEN_SPAM_PROB_FILE, delimiter=' ')
     prob_token_ham = np.loadtxt(TOKEN_HAM_PROB_FILE, delimiter=' ')
     prob_all_tokens = np.loadtxt(TOKEN_ALL_PROB_FILE, delimiter=' ')
-    # test_data = pd.DataFrame(full_test_data).reshape(2500,)
-    # print(pd.DataFrame(full_test_data).sum())
-    # print(np.multiply(full_test_data, prob_token_spam))
     PROB_SPAM = 0.3116
     joint_log_spam = np.multiply(full_test_data,(np.log(prob_token_spam) - np.log(prob_all_tokens)) + np.log(PROB_SPAM))
     joint_log_ham = np.multiply(full_test_data,(np.log(prob_token_ham) - np.log(prob_all_tokens)) + np.log(1- PROB_SPAM))
@@ -143,16 +104,7 @@ def spam_or_not(email):
 @app.route('/', methods=['GET'])
 def test():
 	return jsonify({'message' : 'It works!'})
-
-@app.route('/lang', methods=['GET'])
-def returnAll():
-	return jsonify({'languages' : languages})
-
-@app.route('/lang/<string:name>', methods=['GET'])
-def returnOne(name):
-	langs = [language for language in languages if language['name'] == name]
-	return jsonify({'language' : langs[0]})
-
+    
 @app.route('/', methods=['POST'])
 def addOne():
 	email = request.json['email']
