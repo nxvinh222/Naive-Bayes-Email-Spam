@@ -16,8 +16,6 @@ https://spamassassin.apache.org/old/publiccorpus/
 About the data:
 - Labeled Data (spam email or not).
 - 5799 emails (both spam and non-spam)
-- 4057 emails in training set.
-- 1742 emails in test set.
 
 ## 4. Model
 Using Naive Bayes:
