@@ -10,11 +10,8 @@ Identifying Spam Email given an Email.
 
 https://spamassassin.apache.org/old/publiccorpus/
 
-## 3. Evaluation
 
-Classify emails in test set and compare with their true labels to get accuracy.
-
-## 4. Features
+## 3. Features
 
 About the data:
 - Labeled Data (spam email or not).
@@ -22,7 +19,16 @@ About the data:
 - 4057 emails in training set.
 - 1742 emails in test set.
 
-## 5. Model
+## 4. Model
 Using Naive Bayes:
 
 <img src="https://render.githubusercontent.com/render/math?math=P(Spam \, | \, X) = \frac{P(X \, | \, Spam) \, P(Spam)} {P(X)}">
+
+## 5. Install
+- Download Data above
+- Configure path yourself
+- Run 3 notebook by order: 
+  + Bayes Classifier Pre-Processing.ipynb
+  + Bayes Classifier - Training.ipynb
+  + Bayes Classifier - Testing, Inference & Evaluation.ipynb
+- Run server.py
