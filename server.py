@@ -6,6 +6,7 @@ from nltk.stem import PorterStemmer
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 from bs4 import BeautifulSoup
+import math
 app = Flask(__name__) #define app using Flask
 
 TOKEN_SPAM_PROB_FILE = 'Data/SpamData/03_Testing/prob-spam.txt'
@@ -83,9 +84,9 @@ def spam_or_not(email):
     prob_token_ham = np.loadtxt(TOKEN_HAM_PROB_FILE, delimiter=' ')
     prob_all_tokens = np.loadtxt(TOKEN_ALL_PROB_FILE, delimiter=' ')
     PROB_SPAM = 0.3116
-    joint_log_spam = np.multiply(full_test_data,(np.log(prob_token_spam) - np.log(prob_all_tokens)) + np.log(PROB_SPAM))
-    joint_log_ham = np.multiply(full_test_data,(np.log(prob_token_ham) - np.log(prob_all_tokens)) + np.log(1- PROB_SPAM))
-    
+    joint_log_spam = np.multiply(full_test_data,np.exp((np.log(prob_token_spam) - np.log(prob_all_tokens)) + np.log(PROB_SPAM)))
+    joint_log_ham = np.multiply(full_test_data,np.exp((np.log(prob_token_ham) - np.log(prob_all_tokens)) + np.log(1- PROB_SPAM)))
+
     spam = 1
     ham = 1
     for i in range(2500):
